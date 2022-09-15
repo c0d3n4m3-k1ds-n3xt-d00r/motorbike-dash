@@ -91,6 +91,11 @@ void loop() {
   Serial.println(gyro_z, DEC);
 
 
+    Blynk.virtualWrite(V0, gyro_x);
+    Blynk.virtualWrite(V1, gyro_y);
+    Blynk.virtualWrite(V2, gyro_z);
+
+
   gpsDelay(200);
   if (millis() > 1000 && gps.charsProcessed() < 10)
     Serial.println(F("No GPS data received: check wiring"));
