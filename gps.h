@@ -4,7 +4,7 @@
 #include <SoftwareSerial.h>
 
 
-const int GPS_RXPin = 4, GPS_TXPin = 3;
+const int GPS_RXPin = 5, GPS_TXPin = 4;
 const uint32_t GPSBaud = 9600;
 
 

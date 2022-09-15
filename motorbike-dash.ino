@@ -1,6 +1,21 @@
+#define BLYNK_TEMPLATE_ID "TMPLUzhS6tBZ"
+#define BLYNK_DEVICE_NAME "Light test"
+#define BLYNK_AUTH_TOKEN "MS1KhkU9rXbcbCyGfWPGIpgZIC5B8FI2"
+#define BLYNK_PRINT Serial
+#define ESP8266_BAUD 9600
+#include <ESP8266_Lib.h>
+#include <BlynkSimpleShieldEsp8266.h>
+#include <SoftwareSerial.h>
 #include "adxl345.h"
 #include "gps.h"
 
+
+// Blynk
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid[] = "Starwalker's Plane";  // You can replace the wifi name to your wifi 
+char pass[] = "Maple123";   // Type password of your wifi.
+SoftwareSerial EspSerial(2, 3);  // RX, TX
+ESP8266 wifi(&EspSerial);
 
 // Gyroscope/accelerometer SPI read buffer
 unsigned char adxl_buffer[10];
@@ -11,6 +26,12 @@ int gyro_x, gyro_y, gyro_z;
 
 void setup() {
   Serial.begin(9600);
+
+  /***==========
+    Blynk config
+  ============***/
+  EspSerial.begin(ESP8266_BAUD);
+  Blynk.begin(auth, wifi, ssid, pass);
 
   /***============================
     Gyroscope/accelerometer config
@@ -43,6 +64,8 @@ void setup() {
 
 
 void loop() {
+  Blynk.run();
+
   // Read gyroscope/accelerometer data
   readRegister(ADXL_DATAX0, 6, adxl_buffer);
   gyro_x = (int) word(adxl_buffer[1], adxl_buffer[0]);
