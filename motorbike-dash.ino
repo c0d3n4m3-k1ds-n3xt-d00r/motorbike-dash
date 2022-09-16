@@ -1,6 +1,9 @@
+#include <SoftwareSerial.h>
 #include "adxl345.h"
 #include "gps.h"
 
+
+SoftwareSerial EspSerial(2, 3);  // RX, TX
 
 // Gyroscope/accelerometer SPI read buffer
 unsigned char adxl_buffer[10];
@@ -11,6 +14,8 @@ int gyro_x, gyro_y, gyro_z;
 
 void setup() {
   Serial.begin(9600);
+  EspSerial.begin(9600);
+
 
   /***============================
     Gyroscope/accelerometer config
@@ -66,6 +71,8 @@ void loop() {
   Serial.print(gyro_y, DEC);
   Serial.print(", ");
   Serial.println(gyro_z, DEC);
+  auto data_str = String(gyro_x) + ", " + String(gyro_y) + ", " + String(gyro_z);
+  EspSerial.println(data_str);
 
 
   gpsDelay(200);
